@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.perforator.sdk.examples</groupId>
+    <artifactId>perforator-sdk-examples-testng</artifactId>
+    <version>1.0.15</version>
+    <packaging>jar</packaging>
+    
+    <properties>
+        <!-- build level versions -->
+        <java.version>11</java.version>
+        <maven.minimal.version>3.6.3</maven.minimal.version>
+        <maven.enforcer.plugin.version>3.0.0</maven.enforcer.plugin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
+        
+        <!-- dependency versions -->
+        <perforator.version>1.0.15</perforator.version>
+        <log4j.version>2.17.1</log4j.version>
+        
+        <suiteXmlFile>${project.basedir}/src/test/resources/load_test.xml</suiteXmlFile>
+    </properties>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <id>perforator-gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/perforator-labs%2Fperforator-sdk-java/packages/maven</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <repositories>
+        <repository>
+            <id>perforator-gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/perforator-labs%2Fperforator-sdk-java/packages/maven</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven.enforcer.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>${java.version}</version>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>${maven.minimal.version}</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.perforator.sdk</groupId>
+                <artifactId>perforator-maven-plugin</artifactId>
+                <version>${perforator.version}</version>
+                <configuration>
+                    <apiClientId>5922-4150-899b-e67736b06c9f</apiClientId>
+                    <apiClientSecret>0380-473f-b87d-e7bea35a8f8e</apiClientSecret>
+                    <projectKey>3ef7-447f-a445-e5e500a07961</projectKey>
+                    <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    <concurrency>250</concurrency>
+                    <duration>20m</duration>
+                    <rampUp>10m</rampUp>
+                    <rampDown>10m</rampDown>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.perforator.sdk</groupId>
+            <artifactId>perforator-sdk-load-generator-testng</artifactId>
+            <version>${perforator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

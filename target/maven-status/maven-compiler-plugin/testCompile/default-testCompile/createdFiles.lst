@@ -1,0 +1,4 @@
+com\example\WebElementActions.class
+com\example\ExampleTest.class
+com\example\RemoteWebDriverOptions.class
+com\example\PerSuiteRemoteWebDriverManager.class
